@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>亚马逊德国站新品雷达</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,"PingFang SC","Microsoft YaHei",Segoe UI,sans-serif;background:#f4f5f7;color:#222;font-size:12px}
+header{background:#131921;color:#fff;padding:10px 14px 8px;position:sticky;top:0;z-index:20;box-shadow:0 2px 8px #0004}
+h1{margin:0 0 8px;font-size:16px;font-weight:650}h1 small{font-weight:400;color:#bbb;margin-left:8px;font-size:11px}
+.bar{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.g{display:flex;gap:4px;align-items:center;background:#232f3e;padding:3px 6px;border-radius:5px}
+.g b{color:#febd69;font-size:11px;margin-right:2px}
+.btn{border:1px solid #485769;background:transparent;color:#ddd;padding:3px 7px;border-radius:3px;cursor:pointer;font-size:12px}
+.btn.on{background:#febd69;color:#111;border-color:#febd69}
+input,select{padding:4px 6px;border-radius:3px;border:1px solid #485769;background:#fff;font-size:12px}
+#q{width:180px}#info{color:#ccc;margin-top:6px;font-size:11px}
+main{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:8px;padding:10px 12px}
+@media(max-width:1600px){main{grid-template-columns:repeat(7,minmax(0,1fr))}}
+@media(max-width:1300px){main{grid-template-columns:repeat(5,minmax(0,1fr))}}
+@media(max-width:980px){main{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:640px){main{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:6px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.card a.im{display:block;height:148px;padding:6px;text-align:center;background:#fff;position:relative}
+.card a.im img{max-width:100%;max-height:100%;object-fit:contain}
+.no{position:absolute;left:4px;top:4px;background:#ff9900;color:#111;font-weight:700;font-size:11px;padding:1px 5px;border-radius:2px}
+.ttl{padding:0 8px;font-size:12px;line-height:1.35;height:2.7em;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;color:#0066c0;text-decoration:none}
+.ttl:hover{color:#c45500;text-decoration:underline}
+.meta{padding:2px 8px 4px;color:#555}
+.stars{color:#e47911}.pr{color:#b12704;font-size:16px;font-weight:700;padding:0 8px 4px}
+.panel{border-top:1px solid #eee;padding:4px 8px 8px;font-size:11px;line-height:1.55;color:#333}
+.panel .row{display:flex;gap:4px}.panel .k{flex:0 0 52px;color:#888;white-space:nowrap}.panel .v{flex:1;min-width:0;word-break:break-all}
+.badge{display:inline-block;padding:0 5px;border-radius:2px;font-weight:700;font-size:10px;line-height:16px}
+.fba{background:#ff9900;color:#111}.amz{background:#146eb4;color:#fff}.fbm{background:#ddd;color:#333}
+.new{background:#067d62;color:#fff;margin-left:4px}
+.est{color:#c45500} .copy{cursor:pointer;color:#0066c0}
+.empty{grid-column:1/-1;text-align:center;padding:40px;color:#666}
+#more{display:none;margin:0 auto 24px;padding:8px 28px}
+.tip{cursor:help;border-bottom:1px dashed #888}
+</style>
+</head>
+<body>
+<header>
+<h1>亚马逊德国站新品雷达<small id="upd"></small></h1>
+<div class="bar">
+  <div class="g" data-k="band"><b>价格</b>
+    <button class="btn on" data-v="">全部</button>
+    <button class="btn" data-v="lt10">€10 以下</button>
+    <button class="btn" data-v="10-80">€10–80</button>
+    <button class="btn" data-v="gt80">€80 以上</button>
+  </div>
+  <div class="g"><b>自定义</b>
+    <input id="pmin" type="number" placeholder="€最低" style="width:70px">
+    <span style="color:#888">–</span>
+    <input id="pmax" type="number" placeholder="€最高" style="width:70px">
+  </div>
+  <div class="g"><b>上架</b>
+    <select id="age">
+      <option value="300">300 天内</option>
+      <option value="180">180 天内</option>
+      <option value="90">90 天内</option>
+      <option value="30">30 天内</option>
+      <option value="7">7 天内</option>
+    </select>
+  </div>
+  <div class="g" data-k="ful"><b>配送</b>
+    <button class="btn on" data-v="">全部</button>
+    <button class="btn" data-v="FBA">只看 FBA</button>
+    <button class="btn" data-v="AMZ">亚马逊自营</button>
+    <button class="btn" data-v="FBM">FBM</button>
+  </div>
+  <div class="g"><b>月销量≥</b><input id="smin" type="number" placeholder="估算" style="width:70px"></div>
+  <div class="g"><b>排序</b>
+    <select id="sort">
+      <option value="sales">月销量（估算）高→低</option>
+      <option value="new">最新上架</option>
+      <option value="bsr">大类 BSR 低→高</option>
+      <option value="pa">价格 低→高</option>
+      <option value="pd">价格 高→低</option>
+      <option value="rev">评论数最多</option>
+    </select>
+  </div>
+  <select id="dept"><option value="">全部分类</option></select>
+  <input id="q" placeholder="搜索标题 / ASIN / 品牌 / 卖家">
+</div>
+<div id="info"></div>
+</header>
+<main id="grid"></main>
+<button id="more" class="btn" style="color:#111;border-color:#999;display:block">加载更多</button>
+<script>
+const CHUNKS=["d-0.json","d-1.json","d-2.json","d-3.json","d-4.json","d-5.json","d-6.json","d-7.json"];
+const META={"updated":"2026-11-10 00:32 PST","total":94140,"today":"2026-11-10","depts":[{"slug":"kitchen","de":"Küche, Haushalt & Wohnen","zh":"厨房、家居与生活","n":30765},{"slug":"sports","de":"Sport & Freizeit","zh":"运动与户外休闲","n":29883},{"slug":"garden","de":"Garten","zh":"园艺","n":19029},{"slug":"toys","de":"Spielzeug","zh":"玩具","n":9669},{"slug":"automotive","de":"Auto & Motorrad","zh":"汽车与摩托车","n":1159},{"slug":"baby","de":"Baby","zh":"母婴","n":764},{"slug":"beauty","de":"Kosmetik","zh":"美妆","n":706},{"slug":"ce-de","de":"Elektronik & Foto","zh":"电子产品与摄影","n":421},{"slug":"amazon-renewed","de":"Amazon Renewed","zh":"亚马逊官方翻新","n":120},{"slug":"mobile-apps","de":"Apps & Spiele","zh":"应用与游戏","n":100},{"slug":"books","de":"Bücher","zh":"图书","n":100},{"slug":"digital-text","de":"Kindle-Shop","zh":"Kindle 商店","n":100},{"slug":"music","de":"Musik-CDs & Vinyl","zh":"音乐 CD 与黑胶","n":100},{"slug":"instant-video","de":"Prime Video","zh":"Prime Video 视频","n":100},{"slug":"computers","de":"Computer & Zubehör","zh":"电脑及配件","n":98},{"slug":"dvd-de","de":"DVD & Blu-ray","zh":"DVD 与蓝光","n":98},{"slug":"musical-instruments","de":"Musikinstrumente & DJ-Equipment","zh":"乐器与 DJ 设备","n":97},{"slug":"amazon-devices","de":"Amazon-Geräte & Zubehör","zh":"亚马逊设备及配件","n":96},{"slug":"videogames","de":"Games","zh":"电子游戏","n":96},{"slug":"pet-supplies","de":"Haustier","zh":"宠物用品","n":90},{"slug":"drugstore","de":"Drogerie & Körperpflege","zh":"日化与个人护理","n":85},{"slug":"officeproduct","de":"Bürobedarf & Schreibwaren","zh":"办公用品与文具","n":73},{"slug":"appliances","de":"Elektro-Großgeräte","zh":"大家电","n":70},{"slug":"diy","de":"Baumarkt","zh":"建材五金","n":68},{"slug":"fashion","de":"Fashion","zh":"时尚服饰","n":68},{"slug":"lighting","de":"Beleuchtung","zh":"照明","n":65},{"slug":"photo","de":"Kamera & Foto","zh":"相机与摄影","n":63},{"slug":"handmade","de":"Handmade-Produkte","zh":"手工制品","n":57}],"note":"月销量：有购买标用该数字，否则按大类BSR估算。FBA费用：亚马逊《Tarifübersicht Gebühren für Europa》(2026-11-02) Nur-DE 档×2%燃油附加费（不含增值税）。头程：10元/kg 发货重，汇率 1 EUR=7.4689 CNY（欧洲央行 2026-11-10）。毛利率估算=(含税价/1.19 − 含税价×15%推荐费 − FBA − 头程)/(含税价/1.19)，不含采购成本。"};
+const FLAG={DE:'🇩🇪',CN:'🇨🇳',GB:'🇬🇧',US:'🇺🇸',HK:'🇭🇰',NL:'🇳🇱',FR:'🇫🇷',IT:'🇮🇹',ES:'🇪🇸',PL:'🇵🇱',CZ:'🇨🇿',AT:'🇦🇹',CH:'🇨🇭',IE:'🇮🇪',BE:'🇧🇪',JP:'🇯🇵',IN:'🇮🇳',VN:'🇻🇳',TR:'🇹🇷',CA:'🇨🇦',AU:'🇦🇺'};
+const PAGE=90;
+let RAW=[], LIST=[], SHOWN=0, loaded=false;
+const st={band:'',ful:''};
+
+document.getElementById('upd').textContent='数据更新：'+(META.updated||'')+' · 共 '+(META.total||0)+' 个新品';
+(META.depts||[]).forEach(d=>{const o=document.createElement('option');o.value=d.slug;o.textContent=d.zh+' / '+d.de+'（'+d.n+'）';document.getElementById('dept').appendChild(o)});
+
+document.querySelectorAll('.g[data-k]').forEach(g=>g.addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b)return;
+  g.querySelectorAll('button').forEach(x=>x.classList.remove('on')); b.classList.add('on');
+  st[g.dataset.k]=b.dataset.v; render();
+}));
+['age','sort','dept','pmin','pmax','smin'].forEach(id=>document.getElementById(id).onchange=render);
+let tm; document.getElementById('q').oninput=()=>{clearTimeout(tm);tm=setTimeout(render,180)};
+
+function unpack(r){
+  const [a,t,img,p,br,sel,cc,ful,off,rt,rv,fa,fs,bought,est,ss,bsr,bsrN,bsr2,bsr2N,nv,w,pw,dims,tier,fee,dept,days,head,margin]=r;
+  return {a,t,i:img?('https://m.media-amazon.com/images/I/'+img+'._AC_UL320_.jpg'):'',p,br,sel,cc,ful:ful||'',off,rt,rv,fa,fs,bought:bought||null,est:est||null,ss,bsr:bsr||null,bsrN,bsr2:bsr2||null,bsr2N,nv:nv||null,w:w||null,pw:pw||null,dims,tier,fee:fee||null,dept,days:days>=0?days:null,head:head||null,margin:margin==null?null:margin,
+          u:'https://www.amazon.de/dp/'+a, band:p<10?'lt10':p<=80?'10-80':'gt80'};
+}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function eur(n){return n==null?'—':Number(n).toFixed(2).replace('.',',')+' €'}
+function num(n){return n==null?'—':String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.')}
+function copy(a){navigator.clipboard&&navigator.clipboard.writeText(a)}
+
+function match(x){
+  if(st.band && x.band!==st.band) return false;
+  const pmin=+document.getElementById('pmin').value, pmax=+document.getElementById('pmax').value;
+  if(!isNaN(pmin) && document.getElementById('pmin').value!=='' && x.p<pmin) return false;
+  if(!isNaN(pmax) && document.getElementById('pmax').value!=='' && x.p>pmax) return false;
+  const age=+document.getElementById('age').value;
+  if(x.days==null ? age<300 : x.days>age) return false;
+  if(st.ful && x.ful!==st.ful) return false;
+  const smin=+document.getElementById('smin').value;
+  if(!isNaN(smin) && document.getElementById('smin').value!=='' && (x.est||0)<smin) return false;
+  const dept=document.getElementById('dept').value;
+  if(dept && x.dept!==dept) return false;
+  const q=document.getElementById('q').value.trim().toLowerCase();
+  if(q && !(x.t+' '+x.a+' '+(x.br||'')+' '+(x.sel||'')).toLowerCase().includes(q)) return false;
+  return true;
+}
+function render(){
+  const so=document.getElementById('sort').value;
+  LIST=RAW.filter(match);
+  const cmp={
+    sales:(a,b)=>(b.est||0)-(a.est||0)||(a.bsr||9e9)-(b.bsr||9e9),
+    new:(a,b)=>(a.days??9999)-(b.days??9999),
+    bsr:(a,b)=>(a.bsr||9e9)-(b.bsr||9e9),
+    pa:(a,b)=>a.p-b.p, pd:(a,b)=>b.p-a.p,
+    rev:(a,b)=>(b.rv||0)-(a.rv||0)
+  }[so];
+  LIST.sort(cmp);
+  SHOWN=0; document.getElementById('grid').innerHTML='';
+  const fba=LIST.filter(x=>x.ful==='FBA').length;
+  document.getElementById('info').innerHTML='筛选结果 '+LIST.length+' 个 · 其中已识别 FBA '+fba+' · <span class="tip" title="'+esc(META.note||'')+'">费用与毛利率均为估算，悬停查看公式</span> · 标“约”的上架日期按 ASIN 编号估算';
+  more();
+}
+function row(k,v){return `<div class="row"><span class="k">${k}</span><span class="v">${v}</span></div>`}
+function card(x,i){
+  const ful=x.ful==='FBA'?'<span class="badge fba">FBA</span>':x.ful==='AMZ'?'<span class="badge amz">亚马逊自营</span>':x.ful==='FBM'?'<span class="badge fbm">FBM</span>':'<span class="badge fbm">配送未知</span>';
+  const sales=x.est==null?'—':(x.ss==='badge'?num(x.est):`<span class="est tip" title="按大类 BSR 估算，非正式数据">${num(x.est)} 估算</span>`);
+  const rev=x.est&&x.p?`<span class="est">${eur(x.est*x.p)}</span>`:'—';
+  const fee=x.fee==null?'—':`<span class="est tip" title="Nur-DE 费率表（2026-11-02）×2%燃油附加费，不含增值税">${eur(x.fee)}${x.tier?' · '+esc(x.tier):''}</span>`;
+  const head=x.head==null?'—':`<span class="est tip" title="头程假设：10 元/kg × 发货重，汇率 1 EUR = 7.4689 CNY（欧洲央行）">${eur(x.head)}</span>`;
+  const mg=x.margin==null?'—':`<span class="est tip" title="估算：毛利率=(含税价÷1.19 − 含税价×15%推荐费 − FBA费用 − 头程)÷(含税价÷1.19)。推荐费按挂牌价（含税）15%。不含采购成本。">${(x.margin*100).toFixed(1).replace('.',',')}%</span>`;
+  const fa=(x.fa?((x.fs==='estimate'?'约 ':'')+x.fa+(x.days!=null?'（'+x.days+' 天）':'')):'—')+(x.days!=null&&x.days<=90?' NEWFLAG':'');
+  const w=[x.w?('净 '+ (x.w>=1000?(x.w/1000).toFixed(2).replace('.',',')+' kg':Math.round(x.w)+' g')):null,
+           x.pw?('包 '+(x.pw>=1000?(x.pw/1000).toFixed(2).replace('.',',')+' kg':Math.round(x.pw)+' g')):null].filter(Boolean).join(' / ')||'—';
+  const flag=FLAG[x.cc]||'';
+  return `<article class="card">
+    <a class="im" href="${x.u}" target="_blank" rel="noopener"><span class="no">#${i+1}</span>${x.i?`<img loading="lazy" src="${esc(x.i)}" alt="">`:''}</a>
+    <a class="ttl" href="${x.u}" target="_blank" rel="noopener" title="${esc(x.t)}">${esc(x.t)}</a>
+    <div class="meta">${x.rt?`<span class="stars">★ ${x.rt}</span> · `:''}${num(x.rv||0)} 条评论</div>
+    <div class="pr">${eur(x.p)}</div>
+    <div class="panel">
+      ${row('ASIN', `<span class="copy" onclick="copy('${x.a}')">${x.a}</span>`)}
+      ${row('品牌', esc(x.br||'—'))}
+      ${row('卖家', esc(x.sel||'—')+(flag?' '+flag+' '+x.cc:''))}
+      ${row('配送', ful+(x.off?(' · '+x.off+' 个卖家'):''))}
+      ${row('大类BSR', x.bsr?('#'+num(x.bsr)+(x.bsrN?' · '+esc(x.bsrN):'')):'—')}
+      ${row('小类BSR', x.bsr2?('#'+num(x.bsr2)+(x.bsr2N?' · '+esc(x.bsr2N):'')):'—')}
+      ${row('月销量', sales)}
+      ${row('月销售额', rev)}
+      ${row('FBA费用', fee)}
+      ${row('头程', head)}
+      ${row('毛利率', mg)}
+      ${row('变体', x.nv||'—')}
+      ${row('重量', w)}
+      ${row('尺寸', x.dims?esc(x.dims)+' cm':'—')}
+      ${row('上架', fa.replace('NEWFLAG','<span class="badge new">新品</span>'))}
+    </div></article>`;
+}
+function more(){
+  const g=document.getElementById('grid');
+  if(!LIST.length && loaded){g.innerHTML='<div class="empty">没有符合条件的新品</div>';document.getElementById('more').style.display='none';return}
+  const part=LIST.slice(SHOWN, SHOWN+PAGE);
+  const start=SHOWN; SHOWN+=part.length;
+  g.insertAdjacentHTML('beforeend', part.map((x,i)=>card(x,start+i)).join(''));
+  document.getElementById('more').style.display=SHOWN<LIST.length?'block':'none';
+}
+document.getElementById('more').onclick=more;
+window.addEventListener('scroll',()=>{
+  if(SHOWN<LIST.length && innerHeight+scrollY>document.body.offsetHeight-800) more();
+});
+
+(async()=>{
+  document.getElementById('grid').innerHTML='<div class="empty">数据加载中…</div>';
+  const parts=await Promise.all(CHUNKS.map(n=>fetch(n+(n.includes('?')?'&':'?')+'v='+encodeURIComponent(META.updated||'')).then(r=>r.json())));
+  RAW=[]; parts.forEach(p=>(p.items||[]).forEach(r=>RAW.push(unpack(r))));
+  loaded=true; render();
+})().catch(e=>{document.getElementById('grid').innerHTML='<div class="empty">数据加载失败：'+esc(e.message)+'</div>'});
+</script>
+</body></html>
