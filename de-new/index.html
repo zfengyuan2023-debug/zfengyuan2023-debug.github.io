@@ -64,15 +64,15 @@ main{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:8px;padding:
     </select>
   </div>
   <div class="g" data-k="ful"><b>配送</b>
-    <button class="btn on" data-v="">全部</button>
-    <button class="btn" data-v="FBA">只看 FBA</button>
+    <button class="btn" data-v="">全部</button>
+    <button class="btn on" data-v="FBA">只看 FBA</button>
     <button class="btn" data-v="AMZ">亚马逊自营</button>
     <button class="btn" data-v="FBM">FBM</button>
   </div>
   <div class="g"><b>月销量≥</b><input id="smin" type="number" placeholder="估算" style="width:70px"></div>
   <div class="g"><b>排序</b>
     <select id="sort">
-      <option value="sales">月销量（估算）高→低</option>
+      <option value="sales">FBA优先，再按月销量（估算）</option>
       <option value="new">最新上架</option>
       <option value="bsr">大类 BSR 低→高</option>
       <option value="pa">价格 低→高</option>
@@ -88,12 +88,12 @@ main{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:8px;padding:
 <main id="grid"></main>
 <button id="more" class="btn" style="color:#111;border-color:#999;display:block">加载更多</button>
 <script>
-const CHUNKS=["d-0.json","d-1.json","d-2.json","d-3.json","d-4.json","d-5.json","d-6.json","d-7.json"];
-const META={"updated":"2026-11-10 01:32 PST","total":104138,"today":"2026-11-10","depts":[{"slug":"kitchen","de":"Küche, Haushalt & Wohnen","zh":"厨房、家居与生活","n":30329},{"slug":"sports","de":"Sport & Freizeit","zh":"运动与户外休闲","n":29912},{"slug":"garden","de":"Garten","zh":"园艺","n":19153},{"slug":"toys","de":"Spielzeug","zh":"玩具","n":9730},{"slug":"automotive","de":"Auto & Motorrad","zh":"汽车与摩托车","n":3664},{"slug":"appliances","de":"Elektro-Großgeräte","zh":"大家电","n":1291},{"slug":"ce-de","de":"Elektronik & Foto","zh":"电子产品与摄影","n":1175},{"slug":"drugstore","de":"Drogerie & Körperpflege","zh":"日化与个人护理","n":1030},{"slug":"computers","de":"Computer & Zubehör","zh":"电脑及配件","n":962},{"slug":"beauty","de":"Kosmetik","zh":"美妆","n":695},{"slug":"photo","de":"Kamera & Foto","zh":"相机与摄影","n":674},{"slug":"diy","de":"Baumarkt","zh":"建材五金","n":673},{"slug":"fashion","de":"Fashion","zh":"时尚服饰","n":662},{"slug":"baby","de":"Baby","zh":"母婴","n":644},{"slug":"officeproduct","de":"Bürobedarf & Schreibwaren","zh":"办公用品与文具","n":618},{"slug":"videogames","de":"Games","zh":"电子游戏","n":575},{"slug":"pet-supplies","de":"Haustier","zh":"宠物用品","n":549},{"slug":"musical-instruments","de":"Musikinstrumente & DJ-Equipment","zh":"乐器与 DJ 设备","n":507},{"slug":"lighting","de":"Beleuchtung","zh":"照明","n":266},{"slug":"handmade","de":"Handmade-Produkte","zh":"手工制品","n":161},{"slug":"amazon-renewed","de":"Amazon Renewed","zh":"亚马逊官方翻新","n":120},{"slug":"mobile-apps","de":"Apps & Spiele","zh":"应用与游戏","n":100},{"slug":"books","de":"Bücher","zh":"图书","n":100},{"slug":"digital-text","de":"Kindle-Shop","zh":"Kindle 商店","n":100},{"slug":"music","de":"Musik-CDs & Vinyl","zh":"音乐 CD 与黑胶","n":100},{"slug":"instant-video","de":"Prime Video","zh":"Prime Video 视频","n":100},{"slug":"amazon-devices","de":"Amazon-Geräte & Zubehör","zh":"亚马逊设备及配件","n":99},{"slug":"dvd-de","de":"DVD & Blu-ray","zh":"DVD 与蓝光","n":97},{"slug":"grocery","de":"Lebensmittel & Getränke","zh":"食品与饮料","n":52}],"note":"月销量：有购买标用该数字，否则按大类BSR估算。FBA费用：亚马逊《Tarifübersicht Gebühren für Europa》(2026-11-02) Nur-DE 档×2%燃油附加费（不含增值税）。头程：10元/kg 发货重，汇率 1 EUR=7.4689 CNY（欧洲央行 2026-11-10）。毛利率估算=(含税价/1.19 − 含税价×15%推荐费 − FBA − 头程)/(含税价/1.19)，不含采购成本。"};
+const CHUNKS=["d-0.json","d-1.json","d-2.json","d-3.json","d-4.json","d-5.json","d-6.json","d-7.json","d-8.json"];
+const META={"updated":"2026-11-10 01:46 PST","total":107233,"today":"2026-11-10","depts":[{"slug":"kitchen","de":"Küche, Haushalt & Wohnen","zh":"厨房、家居与生活","n":30325},{"slug":"sports","de":"Sport & Freizeit","zh":"运动与户外休闲","n":29910},{"slug":"garden","de":"Garten","zh":"园艺","n":19153},{"slug":"toys","de":"Spielzeug","zh":"玩具","n":9703},{"slug":"automotive","de":"Auto & Motorrad","zh":"汽车与摩托车","n":6792},{"slug":"appliances","de":"Elektro-Großgeräte","zh":"大家电","n":1291},{"slug":"ce-de","de":"Elektronik & Foto","zh":"电子产品与摄影","n":1175},{"slug":"drugstore","de":"Drogerie & Körperpflege","zh":"日化与个人护理","n":1030},{"slug":"computers","de":"Computer & Zubehör","zh":"电脑及配件","n":962},{"slug":"beauty","de":"Kosmetik","zh":"美妆","n":695},{"slug":"photo","de":"Kamera & Foto","zh":"相机与摄影","n":674},{"slug":"diy","de":"Baumarkt","zh":"建材五金","n":673},{"slug":"fashion","de":"Fashion","zh":"时尚服饰","n":662},{"slug":"baby","de":"Baby","zh":"母婴","n":644},{"slug":"officeproduct","de":"Bürobedarf & Schreibwaren","zh":"办公用品与文具","n":618},{"slug":"videogames","de":"Games","zh":"电子游戏","n":575},{"slug":"pet-supplies","de":"Haustier","zh":"宠物用品","n":549},{"slug":"musical-instruments","de":"Musikinstrumente & DJ-Equipment","zh":"乐器与 DJ 设备","n":507},{"slug":"lighting","de":"Beleuchtung","zh":"照明","n":266},{"slug":"handmade","de":"Handmade-Produkte","zh":"手工制品","n":161},{"slug":"amazon-renewed","de":"Amazon Renewed","zh":"亚马逊官方翻新","n":120},{"slug":"mobile-apps","de":"Apps & Spiele","zh":"应用与游戏","n":100},{"slug":"books","de":"Bücher","zh":"图书","n":100},{"slug":"digital-text","de":"Kindle-Shop","zh":"Kindle 商店","n":100},{"slug":"music","de":"Musik-CDs & Vinyl","zh":"音乐 CD 与黑胶","n":100},{"slug":"instant-video","de":"Prime Video","zh":"Prime Video 视频","n":100},{"slug":"amazon-devices","de":"Amazon-Geräte & Zubehör","zh":"亚马逊设备及配件","n":99},{"slug":"dvd-de","de":"DVD & Blu-ray","zh":"DVD 与蓝光","n":97},{"slug":"grocery","de":"Lebensmittel & Getränke","zh":"食品与饮料","n":52}],"note":"月销量：有购买标用该数字，否则按大类BSR估算。FBA费用：亚马逊《Tarifübersicht Gebühren für Europa》(2026-11-02) Nur-DE 档×2%燃油附加费（不含增值税）。头程：10元/kg 发货重，汇率 1 EUR=7.4689 CNY（欧洲央行 2026-11-10）。毛利率估算=(含税价/1.19 − 含税价×15%推荐费 − FBA − 头程)/(含税价/1.19)，不含采购成本。"};
 const FLAG={DE:'🇩🇪',CN:'🇨🇳',GB:'🇬🇧',US:'🇺🇸',HK:'🇭🇰',NL:'🇳🇱',FR:'🇫🇷',IT:'🇮🇹',ES:'🇪🇸',PL:'🇵🇱',CZ:'🇨🇿',AT:'🇦🇹',CH:'🇨🇭',IE:'🇮🇪',BE:'🇧🇪',JP:'🇯🇵',IN:'🇮🇳',VN:'🇻🇳',TR:'🇹🇷',CA:'🇨🇦',AU:'🇦🇺'};
 const PAGE=90;
 let RAW=[], LIST=[], SHOWN=0, loaded=false;
-const st={band:'',ful:''};
+const st={band:'',ful:'FBA'};
 
 document.getElementById('upd').textContent='数据更新：'+(META.updated||'')+' · 共 '+(META.total||0)+' 个新品';
 (META.depts||[]).forEach(d=>{const o=document.createElement('option');o.value=d.slug;o.textContent=d.zh+' / '+d.de+'（'+d.n+'）';document.getElementById('dept').appendChild(o)});
@@ -136,7 +136,7 @@ function render(){
   const so=document.getElementById('sort').value;
   LIST=RAW.filter(match);
   const cmp={
-    sales:(a,b)=>(b.est||0)-(a.est||0)||(a.bsr||9e9)-(b.bsr||9e9),
+    sales:(a,b)=>(b.ful==='FBA')-(a.ful==='FBA')||(b.est||0)-(a.est||0)||(a.bsr||9e9)-(b.bsr||9e9),
     new:(a,b)=>(a.days??9999)-(b.days??9999),
     bsr:(a,b)=>(a.bsr||9e9)-(b.bsr||9e9),
     pa:(a,b)=>a.p-b.p, pd:(a,b)=>b.p-a.p,
